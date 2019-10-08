@@ -1,10 +1,10 @@
 #pragma once
+#define FTD2XX_EXPORTS
 
 #include <windows.h>
 #include "ftd2xx.h"
 #include "lcd.h"
 
-#define FTD2XX_EXPORTS
 
 #define MY_LCD_DESCRIPTION "EDA LCD 3 B" // CAMBIAR LA DESCRIPCION SEGUN EL GRUPO
 
