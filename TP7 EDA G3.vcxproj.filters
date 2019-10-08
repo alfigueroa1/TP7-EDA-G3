@@ -36,6 +36,9 @@
     <ClInclude Include="ftd2xx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LCDClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

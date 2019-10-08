@@ -3,7 +3,8 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
-#include "lcdWriteDR.h" //falta
+#include "LCDClass.h"
+#include "lcdWriteDR.h" 
 
 #define START_FIRST_LINE 1
 #define END_FIRST_LINE 16
@@ -17,9 +18,10 @@
 
 hitachiLCD::hitachiLCD()
 {
+	LCDClass aux;
 	this->canInit = false;
 	this->error = true;
-	device_handler = lcdInit(44780); //HD44780 (????)
+	device_handler = aux.getHandler();
 	if (device_handler != nullptr)
 	{
 		this->canInit = true;

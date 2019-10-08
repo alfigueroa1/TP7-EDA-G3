@@ -7,13 +7,20 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
+#include "LCDClass.h"
 
+LCDClass::LCDClass() {
+	handler = *lcdInit(1);
+}
 
+FT_HANDLE* LCDClass::getHandler() {
+	return &handler;
+}
 
-FT_HANDLE* lcdInit(int iDevice) {
+FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 
 	FT_STATUS status = !FT_OK;
-	FT_HANDLE* deviceHandler = new FT_HANDLE();
+	FT_HANDLE* deviceHandler = &handler;
 
 	unsigned char info = 0x00;
 	DWORD sizeSent = 0;
