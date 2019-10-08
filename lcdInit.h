@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstdio>
-#include <iostream>
 #include <windows.h>
-#include <chrono>
 #include "ftd2xx.h"
 #include "lcd.h"
 
@@ -13,5 +10,5 @@
 
 #define CONNECTING_TIME 5 //in seconds
 
-FT_HANDLE* lcdInit(int iDevice);
+FT_HANDLE* lcdInit(int iDevice);		//Inicializa la escritura
 

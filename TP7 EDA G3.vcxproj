@@ -128,9 +128,11 @@
     <ClInclude Include="ftd2xx.h" />
     <ClInclude Include="lcd.h" />
     <ClInclude Include="lcdInit.h" />
+    <ClInclude Include="lcdWriteIR.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lcdInit.cpp" />
+    <ClCompile Include="lcdWriteIR.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
