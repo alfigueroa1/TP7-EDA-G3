@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "ftd2xx.h"
 #include "lcd.h"
+#include "lcdWriteIR.h"
 
 
 void lcdWriteIR(FT_HANDLE* deviceHandler, BYTE valor) {
