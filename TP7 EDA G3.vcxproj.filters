@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ftd2xx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lcd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -30,7 +27,13 @@
     <ClInclude Include="basicLCD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="myLCD.h">
+    <ClInclude Include="hitachiLCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lcdWriteDR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ftd2xx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +50,10 @@
     <ClCompile Include="basicLCD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="myLCD.cpp">
+    <ClCompile Include="hitachiLCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lcdWriteDR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

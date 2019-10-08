@@ -7,10 +7,9 @@
 
 
 void lcdWriteIR(FT_HANDLE* deviceHandler, BYTE valor) {
-	if((valor & LCD_RS_ON) != 0)
-		valor = valor & (~LCD_RS_ON);
-	sendNybble(*deviceHandler, 1, valor | LCD_NYBBLE_H);
-	sendNybble(*deviceHandler, 1, valor | LCD_NYBBLE_L);
+
+	sendNybble(*deviceHandler, 1, (valor & LCD_NYBBLE_H) & (~LCD_RS_ON));
+	sendNybble(*deviceHandler, 1, ((valor & LCD_NYBBLE_L) << 4) & (~LCD_RS_ON));
 
 	return;
 }
@@ -18,13 +17,13 @@ void lcdWriteIR(FT_HANDLE* deviceHandler, BYTE valor) {
 
 void sendNybble(FT_HANDLE lcdHandle, DWORD sizeSent, unsigned char byte) {
 	unsigned char info;
-	info = ((LCD_EN_OFF) | (byte));
+	info = (~LCD_EN_ON) & byte;
 	FT_Write(lcdHandle, &info, 1, &sizeSent);
 	Sleep(1);
-	info = ((LCD_EN_ON) | (byte));
+	info = (LCD_EN_ON) | byte;
 	FT_Write(lcdHandle, &info, 1, &sizeSent);
 	Sleep(1);
-	info = ((LCD_EN_OFF) | (byte));
+	info = (~LCD_EN_ON) & byte;
 	FT_Write(lcdHandle, &info, 1, &sizeSent);
 	Sleep(1);
 

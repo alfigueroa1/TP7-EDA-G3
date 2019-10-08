@@ -8,11 +8,13 @@
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
 
+
+
 FT_HANDLE* lcdInit(int iDevice) {
 
 	FT_STATUS status = !FT_OK;
-	FT_HANDLE lcdHandle;
-	FT_HANDLE* deviceHandler= &lcdHandle;
+	FT_HANDLE* deviceHandler = new FT_HANDLE();
+
 	unsigned char info = 0x00;
 	DWORD sizeSent = 0;
 
@@ -53,21 +55,22 @@ FT_HANDLE* lcdInit(int iDevice) {
 					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_4_BIT));
 					Sleep(1);
 
-					info = ((LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_4_BIT) | (LCD_N_2_LINES) | (LCD_FONT_5X8));
-					sendNybble(*deviceHandler, sizeSent, info & (LCD_NYBBLE_H));
-					sendNybble(*deviceHandler, sizeSent, info & (LCD_NYBBLE_L));
+					info = ((LCD_FUNCTION_SET) | (LCD_DL_4_BIT) | (LCD_N_2_LINES) | (LCD_FONT_5X8));
+					lcdWriteIR(deviceHandler, info);
 					Sleep(1);
 
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_DISPLAY_CTRL)) & (LCD_NYBBLE_H));
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_DISPLAY_CTRL)) & (LCD_NYBBLE_L));
+					lcdWriteIR(deviceHandler, LCD_DISPLAY_CTRL);
 					Sleep(1);
 
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_CLEAR)) & (LCD_NYBBLE_H));
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_CLEAR)) & (LCD_NYBBLE_L));
+					lcdWriteIR(deviceHandler, LCD_CLEAR);
 					Sleep(10);
 
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_ENTRY_MODE_SET)) & (LCD_NYBBLE_H));
-					sendNybble(*deviceHandler, sizeSent, ((LCD_RS_OFF) | (LCD_ENTRY_MODE_SET)) & (LCD_NYBBLE_L));
+					lcdWriteIR(deviceHandler, LCD_ENTRY_MODE_SET);
+					Sleep(1);
+
+					lcdWriteIR(deviceHandler, LCD_DISPLAY_CTRL | LCD_CURSOR_ON | LCD_DISPLAY_ON);
+					Sleep(1);
+
 
 					//If success continue with the program (...)
 					printf("Succesful initiation in LCD\n");
