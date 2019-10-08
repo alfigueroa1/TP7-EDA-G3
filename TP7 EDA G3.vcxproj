@@ -130,12 +130,14 @@
     <ClInclude Include="hitachiLCD.h" />
     <ClInclude Include="lcd.h" />
     <ClInclude Include="lcdInit.h" />
+    <ClInclude Include="lcdWriteDR.h" />
     <ClInclude Include="lcdWriteIR.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicLCD.cpp" />
     <ClCompile Include="hitachiLCD.cpp" />
     <ClCompile Include="lcdInit.cpp" />
+    <ClCompile Include="lcdWriteDR.cpp" />
     <ClCompile Include="lcdWriteIR.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

@@ -1,3 +1,7 @@
+#include <cstdio>
+#include <iostream>
+#include <windows.h>
+#include <chrono>
 #include "hitachiLCD.h"
 
 int main()
@@ -6,8 +10,8 @@ int main()
 
     if(lcd.lcdInitOk())
         return 1;
-
-    lcd.lcdClear();
+	
+	lcd.lcdClear();
     lcd << 'e';
 
 	return 0;
