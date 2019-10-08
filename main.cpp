@@ -1,15 +1,14 @@
-#include <cstdio>
-#include <iostream>
-#include <windows.h>
-#include <chrono>
-#include "ftd2xx.h"
-#include "lcd.h"
-#include "lcdInit.h"
+#include "hitachiLCD.h"
 
 int main()
-{	
-	int iDevice = 1;		//????
-	lcdInit(iDevice);
+{
+    hitachiLCD lcd;
+
+    if(lcd.lcdInitOk())
+        return 1;
+
+    lcd.lcdClear();
+    lcd << 'e';
 
 	return 0;
 }

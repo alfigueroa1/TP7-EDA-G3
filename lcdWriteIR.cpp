@@ -16,7 +16,7 @@ void lcdWriteIR(FT_HANDLE* deviceHandler, BYTE valor) {
 }
 
 
-void sendNybble(FT_HANDLE lcdHandle, DWORD sizeSent, unsigned char byte) {
+void sendNybbleIR(FT_HANDLE lcdHandle, DWORD sizeSent, unsigned char byte) {
 	unsigned char info;
 	info = ((LCD_EN_OFF) | (byte));
 	FT_Write(lcdHandle, &info, 1, &sizeSent);
