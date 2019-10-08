@@ -16,6 +16,8 @@
 #define LCD_D6	(1 << PORT_P6)
 #define LCD_D7	(1 << PORT_P7)
 //1-c) Masks
+#define LCD_NYBBLE_H	0xF0
+#define LCD_NYBBLE_L	0x0F
 #define MASK_CTRL		(LCD_EN | LCD_RS)
 #define NOT_MASK_CTRL	~(MASK_CTRL)
 #define MASK_DATA		(LCD_D4 | LCD_D5 | LCD_D6 | LCD_D7)
@@ -40,9 +42,9 @@
 #define LCD_HOME	0x02
 //LCD ENTRY MODE SET
 #define	LCD_ENTRY_MODE_SET	0x04
-#define LCD_SHIFT	0x01
-#define LCD_CURSOR_R	0x03
-#define LCD_CURSOR_L	0x02
+#define LCD_SHIFT			0x01
+#define LCD_CURSOR_R		0x03
+#define LCD_CURSOR_L		0x02
 //LCD DISPLAY CONTROL
 #define LCD_DISPLAY_CTRL	0x08
 #define LCD_DISPLAY_ON		0x04
@@ -60,10 +62,10 @@
 #define LCD_FUNCTION_SET	0x20
 #define LCD_DL_8_BIT		0x10
 #define LCD_DL_4_BIT		0x00
-#define LCD_N_LINES_1		0x08
-#define LCD_N_LINES_0		0x00
-#define LCD_FONT_1			0x04
-#define LCD_FONT_0			0x00
+#define LCD_N_2_LINES		0x08
+#define LCD_N_1_LINE		0x00
+#define LCD_FONT_5X10		0x04
+#define LCD_FONT_5X8		0x00
 //SET CGRAM ADDRESS
 #define LCD_SET_CGRAM		0x4O
 //SET DDRAM ADDRESS
