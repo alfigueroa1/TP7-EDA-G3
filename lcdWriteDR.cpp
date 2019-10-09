@@ -8,7 +8,6 @@
 
 
 void lcdWriteDR(FT_HANDLE* deviceHandler, BYTE valor) {
-
 	sendNybble(*deviceHandler, 1, (valor & LCD_NYBBLE_H) | LCD_RS_ON);
 	sendNybble(*deviceHandler, 1, ((valor & LCD_NYBBLE_L) << 4) | LCD_RS_ON);
 

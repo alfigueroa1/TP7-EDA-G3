@@ -18,10 +18,10 @@
 
 hitachiLCD::hitachiLCD()
 {
-	LCDClass aux;
+	LCDClass aux; //
 	this->canInit = false;
 	this->error = true;
-	device_handler = aux.getHandler();
+	device_handler = aux.getHandler(); //
 	if (device_handler != nullptr)
 	{
 		this->canInit = true;
@@ -35,7 +35,7 @@ hitachiLCD:: ~hitachiLCD()
 	if(this->canInit == true)
 	{
 		FT_Close(*device_handler);
-		delete device_handler;
+		//delete device_handler;
 	}
 }
 
