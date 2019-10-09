@@ -9,6 +9,15 @@
 #include "lcdWriteIR.h"
 #include "LCDClass.h"
 
+void testLCDMsg(FT_HANDLE* deviceHandler, const char* msg);
+void testLCDMsg(FT_HANDLE* deviceHandler, const char* msg) {
+
+	for (int i = 0; msg[i] != '\0'; i++) {
+		lcdWriteDR(deviceHandler, msg[i]);
+		Sleep(500);
+	}
+}
+
 LCDClass::LCDClass() {
 	handler = *lcdInit(1);
 }
@@ -50,6 +59,9 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 				//Finally executes the action "write to LCD"...
 				if (FT_Write(*deviceHandler, &info, 1, &sizeSent) == FT_OK)
 				{
+					//If success continue with the program (...)
+					printf("Succesful initiation in LCD\n");
+
 					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
 					Sleep(5);
 
@@ -78,9 +90,10 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 					lcdWriteIR(deviceHandler, LCD_DISPLAY_CTRL | LCD_CURSOR_ON | LCD_DISPLAY_ON);
 					Sleep(1);
 
-
-					//If success continue with the program (...)
-					printf("Succesful initiation in LCD\n");
+					lcdWriteIR(deviceHandler, (LCD_ENTRY_MODE_SET) | (LCD_CURSOR_R));
+					Sleep(1);
+					testLCDMsg(deviceHandler, "Hello World!");
+					lcdWriteIR(deviceHandler, LCD_CLEAR);
 				}
 				else
 					printf("Error initiating the LCD\n");
