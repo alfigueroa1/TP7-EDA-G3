@@ -21,6 +21,8 @@ public:
 	virtual bool lcdMoveCursorLeft();
 	virtual bool lcdSetCursorPosition(const cursorPosition pos);
 	virtual cursorPosition lcdGetCursorPosition();
+	//
+	FT_HANDLE* getLCDHandler() { return device_handler; }
 
 private:
 	bool canInit;
