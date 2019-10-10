@@ -24,8 +24,11 @@ public:
 	//
 	FT_HANDLE* getLCDHandler() { return device_handler; }
 
+
 private:
 	bool canInit;
+	FT_HANDLE* lcdInit(int iDevice);
 	FT_HANDLE * device_handler;
+	FT_STATUS status;
 	virtual void lcdUpdateCursor();
 };

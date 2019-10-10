@@ -21,9 +21,11 @@ int main()
         return 1;
 
 	cursorPosition pos;
+
+
 	lcd.lcdClear();
     lcd << 'e';
-	lcdWriteDR(testHandle, 't');
+	//lcdWriteDR(testHandle, 't');
 
 
 	return 0;

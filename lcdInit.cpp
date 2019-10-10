@@ -7,29 +7,32 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
+#include "lcdWriteDR.h"
 #include "LCDClass.h"
+#include "hitachiLCD.h"
 
-void testLCDMsg(FT_HANDLE* deviceHandler, const char* msg);
-void testLCDMsg(FT_HANDLE* deviceHandler, const char* msg) {
+void testLCDMsg(FT_HANDLE* device_handler, const char* msg);
+void testLCDMsg(FT_HANDLE* device_handler, const char* msg) {
 
 	for (int i = 0; msg[i] != '\0'; i++) {
-		lcdWriteDR(deviceHandler, msg[i]);
+		lcdWriteDR(device_handler, msg[i]);
 		Sleep(500);
 	}
 }
 
-LCDClass::LCDClass() {
-	handler = *lcdInit(1);
-}
+//LCDClass::LCDClass() {
+//	handler = lcdInit(1);
+//}
+//
+//FT_HANDLE* LCDClass::getHandler() {
+//	return handler;
+//}
 
-FT_HANDLE* LCDClass::getHandler() {
-	return &handler;
-}
-
-FT_HANDLE* LCDClass::lcdInit(int iDevice) {
+FT_HANDLE* hitachiLCD::lcdInit(int iDevice) {
 
 	FT_STATUS status = !FT_OK;
-	FT_HANDLE* deviceHandler = &handler;
+	FT_HANDLE* device_handler = new FT_HANDLE();
+	//device_handler = device_handler;
 
 	unsigned char info = 0x00;
 	DWORD sizeSent = 0;
@@ -42,13 +45,13 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 
 	while (status != FT_OK && ((current - start) < MaxTime))//loop till succesful connection o max connecting time is exceeded
 	{
-		status = FT_OpenEx((void*)MY_LCD_DESCRIPTION, FT_OPEN_BY_DESCRIPTION, deviceHandler);
+		status = FT_OpenEx((void*)MY_LCD_DESCRIPTION, FT_OPEN_BY_DESCRIPTION, device_handler);
 
 		if (status == FT_OK)
 		{
 			UCHAR Mask = 0xFF;	//Selects all FTDI pins.
 			UCHAR Mode = 1; 	// Set asynchronous bit-bang mode
-			if (FT_SetBitMode(*deviceHandler, Mask, Mode) == FT_OK)	// Sets LCD as asynch bit mode. Otherwise it doesn't work.
+			if (FT_SetBitMode(*device_handler, Mask, Mode) == FT_OK)	// Sets LCD as asynch bit mode. Otherwise it doesn't work.
 			{
 
 				//Example to write 0xf0 to the display 
@@ -57,43 +60,44 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 				info = 0xf0;
 
 				//Finally executes the action "write to LCD"...
-				if (FT_Write(*deviceHandler, &info, 1, &sizeSent) == FT_OK)
+				if (FT_Write(*device_handler, &info, 1, &sizeSent) == FT_OK)
 				{
 					//If success continue with the program (...)
-					printf("Succesful initiation in LCD\n");
-
-					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
+					std::cout << "Succesful initiation in LCD\n" << std::endl;
+					/*printf("Succesful initiation in LCD\n");
+					fflush(stdout);*/
+					sendNybble(*device_handler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
 					Sleep(5);
 
-					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
+					sendNybble(*device_handler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
 					Sleep(1);
 
-					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
+					sendNybble(*device_handler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
 					Sleep(1);
 
-					sendNybble(*deviceHandler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_4_BIT));
+					sendNybble(*device_handler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_4_BIT));
 					Sleep(1);
 
 					info = ((LCD_FUNCTION_SET) | (LCD_DL_4_BIT) | (LCD_N_2_LINES) | (LCD_FONT_5X8));
-					lcdWriteIR(deviceHandler, info);
+					lcdWriteIR(device_handler, info);
 					Sleep(1);
 
-					lcdWriteIR(deviceHandler, LCD_DISPLAY_CTRL);
+					lcdWriteIR(device_handler, LCD_DISPLAY_CTRL);
 					Sleep(1);
 
-					lcdWriteIR(deviceHandler, LCD_CLEAR);
+					lcdWriteIR(device_handler, LCD_CLEAR);
 					Sleep(10);
 
-					lcdWriteIR(deviceHandler, LCD_ENTRY_MODE_SET);
+					lcdWriteIR(device_handler, LCD_ENTRY_MODE_SET);
 					Sleep(1);
 
-					lcdWriteIR(deviceHandler, LCD_DISPLAY_CTRL | LCD_CURSOR_ON | LCD_DISPLAY_ON);
+					lcdWriteIR(device_handler, LCD_DISPLAY_CTRL | LCD_CURSOR_ON | LCD_DISPLAY_ON);
 					Sleep(1);
 
-					lcdWriteIR(deviceHandler, (LCD_ENTRY_MODE_SET) | (LCD_CURSOR_R));
+					lcdWriteIR(device_handler, (LCD_ENTRY_MODE_SET) | (LCD_CURSOR_R));
 					Sleep(1);
-					testLCDMsg(deviceHandler, "Hello World!");
-					lcdWriteIR(deviceHandler, LCD_CLEAR);
+					testLCDMsg(device_handler, "Hello World!");
+					//lcdWriteIR(device_handler, LCD_CLEAR);
 				}
 				else
 					printf("Error initiating the LCD\n");
@@ -101,7 +105,7 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 			else
 				printf("Couldn't configure LCD\n");
 
-			FT_Close(*deviceHandler);
+			FT_Close(*device_handler);
 		}
 		current = std::chrono::system_clock::now();
 	}
@@ -109,5 +113,5 @@ FT_HANDLE* LCDClass::lcdInit(int iDevice) {
 	if (status != FT_OK)
 		printf("Couldn't open LCD\n");
 
-	return deviceHandler;
+	return device_handler;
 }

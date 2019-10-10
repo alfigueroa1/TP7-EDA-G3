@@ -18,10 +18,10 @@
 
 hitachiLCD::hitachiLCD()
 {
-	LCDClass aux; //
+	//LCDClass aux; //
 	this->canInit = false;
 	this->error = true;
-	device_handler = aux.getHandler(); //
+	device_handler = lcdInit(1); //
 	if (device_handler != nullptr)
 	{
 		this->canInit = true;
@@ -35,7 +35,7 @@ hitachiLCD:: ~hitachiLCD()
 	if(this->canInit == true)
 	{
 		FT_Close(*device_handler);
-		//delete device_handler;
+		delete device_handler;
 	}
 }
 
@@ -54,6 +54,11 @@ FT_STATUS hitachiLCD::lcdGetError()
 
 bool hitachiLCD::lcdClear()
 {
+	UCHAR Mask = 0xFF;	//Selects all FTDI pins.
+	UCHAR Mode = 1; 	// Set asynchronous bit-bang mode
+	FT_OpenEx((void*)MY_LCD_DESCRIPTION, FT_OPEN_BY_DESCRIPTION, device_handler);
+	FT_SetBitMode(*device_handler, Mask, Mode);		// Sets LCD as asynch bit mode. Otherwise it doesn't work.
+
 	bool canClear = false;
 	FT_STATUS state = FT_OK;
 	lcdWriteIR(device_handler, LCD_CLEAR);
