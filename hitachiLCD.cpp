@@ -3,8 +3,6 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
-#include "LCDClass.h"
-#include "lcdWriteDR.h" 
 
 #define START_FIRST_LINE 1
 #define END_FIRST_LINE 16
@@ -18,10 +16,9 @@
 
 hitachiLCD::hitachiLCD()
 {
-	//LCDClass aux; //
 	this->canInit = false;
 	this->error = true;
-	device_handler = lcdInit(1); //
+	device_handler = lcdInit(1); 
 	if (device_handler != nullptr)
 	{
 		this->canInit = true;
@@ -52,12 +49,22 @@ FT_STATUS hitachiLCD::lcdGetError()
 	return state;
 }
 
-bool hitachiLCD::lcdClear()
+void hitachiLCD::lcdSet()
 {
+	bool ok = false;
 	UCHAR Mask = 0xFF;	//Selects all FTDI pins.
 	UCHAR Mode = 1; 	// Set asynchronous bit-bang mode
 	FT_OpenEx((void*)MY_LCD_DESCRIPTION, FT_OPEN_BY_DESCRIPTION, device_handler);
 	FT_SetBitMode(*device_handler, Mask, Mode);		// Sets LCD as asynch bit mode. Otherwise it doesn't work.
+
+}
+
+bool hitachiLCD::lcdClear()
+{
+	//UCHAR Mask = 0xFF;	//Selects all FTDI pins.
+	//UCHAR Mode = 1; 	// Set asynchronous bit-bang mode
+	//FT_OpenEx((void*)MY_LCD_DESCRIPTION, FT_OPEN_BY_DESCRIPTION, device_handler);
+	//FT_SetBitMode(*device_handler, Mask, Mode);		// Sets LCD as asynch bit mode. Otherwise it doesn't work.
 
 	bool canClear = false;
 	FT_STATUS state = FT_OK;
@@ -115,7 +122,7 @@ basicLCD& hitachiLCD::operator<<(const unsigned char c)
 	return *this;
 }
 
-basicLCD& hitachiLCD::operator<<(const unsigned char* c)
+basicLCD& hitachiLCD::operator<<(const char* c)
 {
 	for (int i = 0; c[i] != '\0'; i++)
 	{
@@ -243,3 +250,4 @@ void hitachiLCD::lcdUpdateCursor()
 		caddaux = (char)0xFF;
 	lcdWriteIR(device_handler, LCD_SET_DDRAM | caddaux);
 }
+

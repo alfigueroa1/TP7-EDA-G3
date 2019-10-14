@@ -14,7 +14,7 @@ public:
 	virtual bool lcdClear();
 	virtual bool lcdClearToEOL();
 	virtual basicLCD& operator<<(const unsigned char c);
-	virtual basicLCD& operator<<(const unsigned char* c);
+	virtual basicLCD& operator<<(const char* c);
 	virtual bool lcdMoveCursorUp();
 	virtual bool lcdMoveCursorDown();
 	virtual bool lcdMoveCursorRight();
@@ -23,7 +23,7 @@ public:
 	virtual cursorPosition lcdGetCursorPosition();
 	//
 	FT_HANDLE* getLCDHandler() { return device_handler; }
-
+	void lcdSet();
 
 private:
 	bool canInit;

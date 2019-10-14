@@ -7,32 +7,12 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
-#include "lcdWriteDR.h"
-#include "LCDClass.h"
 #include "hitachiLCD.h"
-
-void testLCDMsg(FT_HANDLE* device_handler, const char* msg);
-void testLCDMsg(FT_HANDLE* device_handler, const char* msg) {
-
-	for (int i = 0; msg[i] != '\0'; i++) {
-		lcdWriteDR(device_handler, msg[i]);
-		Sleep(500);
-	}
-}
-
-//LCDClass::LCDClass() {
-//	handler = lcdInit(1);
-//}
-//
-//FT_HANDLE* LCDClass::getHandler() {
-//	return handler;
-//}
 
 FT_HANDLE* hitachiLCD::lcdInit(int iDevice) {
 
 	FT_STATUS status = !FT_OK;
 	FT_HANDLE* device_handler = new FT_HANDLE();
-	//device_handler = device_handler;
 
 	unsigned char info = 0x00;
 	DWORD sizeSent = 0;
@@ -63,7 +43,7 @@ FT_HANDLE* hitachiLCD::lcdInit(int iDevice) {
 				if (FT_Write(*device_handler, &info, 1, &sizeSent) == FT_OK)
 				{
 					//If success continue with the program (...)
-					std::cout << "Succesful initiation in LCD\n" << std::endl;
+					//std::cout << "Succesful initiation in LCD\n" << std::endl;
 					/*printf("Succesful initiation in LCD\n");
 					fflush(stdout);*/
 					sendNybble(*device_handler, sizeSent, (LCD_RS_OFF) | (LCD_FUNCTION_SET) | (LCD_DL_8_BIT));
@@ -96,8 +76,6 @@ FT_HANDLE* hitachiLCD::lcdInit(int iDevice) {
 
 					lcdWriteIR(device_handler, (LCD_ENTRY_MODE_SET) | (LCD_CURSOR_R));
 					Sleep(1);
-					testLCDMsg(device_handler, "Hello World!");
-					//lcdWriteIR(device_handler, LCD_CLEAR);
 				}
 				else
 					printf("Error initiating the LCD\n");
@@ -105,7 +83,7 @@ FT_HANDLE* hitachiLCD::lcdInit(int iDevice) {
 			else
 				printf("Couldn't configure LCD\n");
 
-			FT_Close(*device_handler);
+			//FT_Close(*device_handler);
 		}
 		current = std::chrono::system_clock::now();
 	}
